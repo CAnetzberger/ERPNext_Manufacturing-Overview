@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include manufacturing_overview *.css
+recursive-include manufacturing_overview *.csv
+recursive-include manufacturing_overview *.html
+recursive-include manufacturing_overview *.ico
+recursive-include manufacturing_overview *.js
+recursive-include manufacturing_overview *.json
+recursive-include manufacturing_overview *.md
+recursive-include manufacturing_overview *.png
+recursive-include manufacturing_overview *.py
+recursive-include manufacturing_overview *.svg
+recursive-include manufacturing_overview *.txt
+recursive-exclude manufacturing_overview *.pyc
