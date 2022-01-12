@@ -1,0 +1,5 @@
+{
+    "manufacturing_overview/js/manufacturing_overview.min.js": [
+        "public/js/manufacturing_overview_page.js"
+    ]
+}
