@@ -105,7 +105,7 @@ def generateProductionOverviewCache():
 
         soItem.qty = soItem.qty - soItem.delivered_qty
 
-        soItem.link = '/desk#Form/Sales%20Order/' + soItem.parent
+        soItem.link = '/app#Form/Sales%20Order/' + soItem.parent
 
     frappe.cache().set_value("production_overview", salesOrderItems)
 
