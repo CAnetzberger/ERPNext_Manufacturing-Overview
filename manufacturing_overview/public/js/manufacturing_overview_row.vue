@@ -1,7 +1,7 @@
 <template>
   <a
     @click="pushRoute(link)"
-    class="row link-item ellipsis onbpoard-spotlight"
+    class="row link-item text-wrap ellipsis onbpoard-spotlight"
     type="Link"
   >
     <div class="col col-xs-8">
@@ -9,10 +9,9 @@
         class="indicator-pill no-margin"
         v-bind:class="{
           red: status === 'No Work Order',
-          blue: status === 'Fully Delivered',
-          'light-blue': status === 'Partially Delivered',
+          blue: status === 'Partially Delivered',
           green: status === 'In Warehouse',
-          orange: status === 'To Produce',
+          yellow: status === 'To Produce',
           grey: status === 'Unknown',
         }"
       ></span>

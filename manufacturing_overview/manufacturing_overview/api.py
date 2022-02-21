@@ -44,9 +44,7 @@ def shortenCustomerName(customer):
 
 
 def calculateSalesOrderStatus(item, warehouseamount, workorders):
-    if item.delivered_qty >= item.qty:
-        return "Fully Delivered"
-    elif item.delivered_qty < item.qty and item.delivered_qty > 0:
+    if item.delivered_qty < item.qty and item.delivered_qty > 0:
         return "Partially Delivered"
     elif item.qty <= warehouseamount:
         return "In Warehouse"

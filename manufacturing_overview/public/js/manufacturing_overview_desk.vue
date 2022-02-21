@@ -1,27 +1,29 @@
 <template>
-  <div class="col-4 layout-main-section-wrapper">
-    <div class="widget links-widget-box" style="height: auto">
-      <div class="widget-head">
-        <div>
-          <div class="widget-subtitle"></div>
+  <div class="col-12 col-lg-4 layout-main-section-wrapper">
+    <div class="layout-main-section">
+      <div class="widget links-widget-box" style="height: auto">
+        <div class="widget-head">
+          <div>
+            <div class="widget-subtitle"></div>
+          </div>
+          <div class="widget-control"></div>
         </div>
-        <div class="widget-control"></div>
-      </div>
-      <div class="widget-body">
-        <manufacturing-overview-row
-          v-for="so in salesorderData"
-          :key="so.name"
-          v-bind:qty="so.qty"
-          v-bind:item_name="so.item_name"
-          v-bind:item_code="so.item_code"
-          v-bind:customer="so.customer"
-          v-bind:delivery_date="so.delivery_date"
-          v-bind:status="so.status"
-          v-bind:link="so.link"
-          v-bind:reference="so.parent"
-          v-bind:due_in="so.due_in"
-        >
-        </manufacturing-overview-row>
+        <div class="widget-body">
+          <manufacturing-overview-row
+            v-for="so in salesorderData"
+            :key="so.name"
+            v-bind:qty="so.qty"
+            v-bind:item_name="so.item_name"
+            v-bind:item_code="so.item_code"
+            v-bind:customer="so.customer"
+            v-bind:delivery_date="so.delivery_date"
+            v-bind:status="so.status"
+            v-bind:link="so.link"
+            v-bind:reference="so.parent"
+            v-bind:due_in="so.due_in"
+          >
+          </manufacturing-overview-row>
+        </div>
       </div>
     </div>
   </div>
