@@ -94,7 +94,11 @@ def generateProductionOverviewCache():
         soItem.delivery_date = formatDate(soItem.delivery_date)
         soItem.warehouseamount = getAmountInWarehouses(soItem.item_code)
 
-        if soItem.warehouseamount >= soItem.qty:
+        if soItem.delivered_qty > 0 and soItem.delivered_qty < soItem.qty:
+            soItem.status = 'Partially Delivered'
+        elif soItem.delivered_qty >= soItem.qty:
+            soItem.status = 'Fully Delivered'
+        elif soItem.warehouseamount >= soItem.qty:
             soItem.status = 'In Warehouse'
         elif len(soItem.wos) != 0:
             soItem.status = 'To Produce'
@@ -103,7 +107,7 @@ def generateProductionOverviewCache():
 
         soItem.qty = soItem.qty - soItem.delivered_qty
 
-        soItem.link = '/app#Form/Sales%20Order/' + soItem.parent
+        soItem.link = '/app/sales-order/' + soItem.parent
 
     frappe.cache().set_value("production_overview", salesOrderItems)
 
