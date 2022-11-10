@@ -1,13 +1,14 @@
-from . import __version__ as app_version
+from frappe import _
 
 app_name = "manufacturing_overview"
 app_title = "Manufacturing Overview"
 app_publisher = "CAnetzberger Design"
 app_description = "Dashboard Overview for Sales Orders Items to be manufactured"
-app_icon = "octicon octicon-file-directory"
+app_icon = "fa fa-th"
 app_color = "grey"
 app_email = "admin@canetzberger.design"
 app_license = "MIT"
+required_apps = ["erpnext"]
 
 # Includes in <head>
 # ------------------
@@ -147,30 +148,6 @@ app_include_js = "/assets/manufacturing_overview/js/manufacturing_overview.min.j
 #
 # auto_cancel_exempted_doctypes = ["Auto Repeat"]
 
-
-# User Data Protection
-# --------------------
-
-user_data_fields = [
-    {
-        "doctype": "{doctype_1}",
-        "filter_by": "{filter_by}",
-        "redact_fields": ["{field_1}", "{field_2}"],
-        "partial": 1,
-    },
-    {
-        "doctype": "{doctype_2}",
-        "filter_by": "{filter_by}",
-        "partial": 1,
-    },
-    {
-        "doctype": "{doctype_3}",
-        "strict": False,
-    },
-    {
-        "doctype": "{doctype_4}"
-    }
-]
 
 # Authentication and authorization
 # --------------------------------
