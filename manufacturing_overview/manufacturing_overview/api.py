@@ -6,17 +6,6 @@ from datetime import date
 def clearCache(doc, event):
     frappe.cache().delete_value("production_overview")
 
-
-@frappe.whitelist()
-def getUserPermissions():
-    return frappe.get_doc('Production Overview User Mapping', frappe.session.user)
-
-
-def formatDate(d):
-    return frappe.utils.formatdate(
-        d, 'dd.MM.yyyy')
-
-
 def getDueInDays(d):
     delta = d - date.today()
     return delta.days
@@ -42,20 +31,6 @@ def shortenCustomerName(customer):
     else:
         return customer
 
-
-def calculateSalesOrderStatus(item, warehouseamount, workorders):
-    if item.delivered_qty < item.qty and item.delivered_qty > 0:
-        return "Partially Delivered"
-    elif item.qty <= warehouseamount:
-        return "In Warehouse"
-    elif len(workorders) <= 0:
-        return "No Work Order"
-    elif len(workorders) > 0 and item.qty > warehouseamount:
-        return "To Produce"
-    else:
-        return "Unknown"
-
-
 def generateProductionOverviewCache():
     salesOrderItems = frappe.db.sql(
         """
@@ -68,6 +43,7 @@ def generateProductionOverviewCache():
             `tabSales Order Item`.delivered_qty,
             `tabSales Order Item`.delivery_date,
             `tabSales Order Item`.item_code,
+            `tabSales Order Item`.work_order_qty,
             `tabSales Order Item`.parent,
             `tabSales Order`.status as parentStatus
         FROM
@@ -80,7 +56,7 @@ def generateProductionOverviewCache():
         status = 'To Deliver and Bill' and
         item_group = "Produkte"
         ORDER BY
-        delivery_date
+        delivery_date, item_code, name
         """, as_dict=1)
 
     for soItem in salesOrderItems:
@@ -88,10 +64,10 @@ def generateProductionOverviewCache():
 
         soItem.customer = shortenCustomerName(frappe.get_value(
             'Sales Order', soItem.parent, 'customer'))
-        soItem.wos = frappe.get_all('Work Order', filters=[
-                                    ['sales_order', '=', soItem.parent], ['production_item', '=', soItem.item_code], ['status', '!=', "Cancelled"]])
+        # soItem.wos = frappe.get_all('Work Order', filters=[
+        #                             ['sales_order', '=', soItem.parent], ['production_item', '=', soItem.item_code], ['status', '!=', "Cancelled"]])
 
-        soItem.delivery_date = formatDate(soItem.delivery_date)
+        soItem.delivery_date = frappe.utils.formatdate(soItem.delivery_date, 'dd.MM.yyyy')
         soItem.warehouseamount = getAmountInWarehouses(soItem.item_code)
 
         if soItem.delivered_qty > 0 and soItem.delivered_qty < soItem.qty:
@@ -100,7 +76,7 @@ def generateProductionOverviewCache():
             soItem.status = 'Fully Delivered'
         elif soItem.warehouseamount >= soItem.qty:
             soItem.status = 'In Warehouse'
-        elif len(soItem.wos) != 0:
+        elif soItem.work_order_qty > 0:
             soItem.status = 'To Produce'
         else:
             soItem.status = 'No Work Order'
